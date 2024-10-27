@@ -53,6 +53,7 @@ function displayMealsHome(arr) {
         `;
     }
     rowData.innerHTML = meals;
+    
 }
 
 function closeSideNav() {
@@ -74,7 +75,7 @@ function showSearchInputs() {
     </div>`;
 
     rowData.innerHTML = ""; 
-    closeSideNav();
+  
 
     nameSearch = document.querySelector("#nameSearch");
     nameSearch.addEventListener("keyup", function() {
@@ -138,7 +139,7 @@ function displayMealCategories(arr) {
         `;
     }
     rowData.innerHTML = categories;
-    closeSideNav();
+   
 }
 
 
@@ -166,7 +167,7 @@ function displayMeals(meals) {
         `;
     }
     rowData.innerHTML = mealData;
-    closeSideNav()
+   
 }
 
 // area
@@ -193,7 +194,7 @@ function displayArea(arr) {
     }
 
     rowData.innerHTML = area;
-    closeSideNav();
+    
 }
 
 async function getAreaMeals(area) {
@@ -251,7 +252,7 @@ function displayIngredients(arr) {
     }
 
     rowData.innerHTML = ingredients;
-    closeSideNav();
+   
 }
 
 
@@ -435,7 +436,6 @@ function userRePasswordValid() {
 
 // display meals details by id
 async function getMealDetails(mealID) {
-    closeSideNav()
     rowData.innerHTML = ""
 
     searchContainer.innerHTML = "";
@@ -497,5 +497,4 @@ function displayMealDetails(meal) {
             </div>`
 
     rowData.innerHTML = content;
-    closeSideNav()
 }
