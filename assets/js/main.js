@@ -110,7 +110,6 @@ function showSearchInputs() {
 }
 
 async function searchByName(nameSearchMeal) {
- 
     let result = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${nameSearchMeal}`);
     let response = await result.json();
 
@@ -120,12 +119,10 @@ async function searchByName(nameSearchMeal) {
     } else {
         rowData.innerHTML = "<p>No meals found.</p>";
     }
- 
 }
 
 async function searchByLetter(LetterSearchMeal) {
 
- 
     let result = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${LetterSearchMeal}`);
     let response = await result.json();
 
@@ -135,7 +132,6 @@ async function searchByLetter(LetterSearchMeal) {
     } else {
         rowData.innerHTML = "<p>No meals found.</p>";
     }
- 
 }
 
 // categories
