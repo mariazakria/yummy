@@ -12,29 +12,45 @@ $("#contact").on("click", showContacts);
 
 $(".open-close-icon").on("click", function() {
     if ($(".side-nav").css("left") === "0px") {
-        $(".side-nav").animate({ left: "-243px" }, 500);
+        $(".side-nav").animate({
+            left: "-243px"
+        }, 500);
         $(this).toggleClass("fa-x fa-bars");
     } else {
-        $(".side-nav").animate({ left: "0px" }, 500);
+        $(".side-nav").animate({
+            left: "0px"
+        }, 500);
         $(this).toggleClass("fa-bars fa-x");
         $(".nav-links ul li").css("left", "-150px");
         $(".nav-links ul li").each(function(index) {
             $(this).delay(index * 150).animate({
                 left: 0
-            }, 400); 
+            }, 400);
         });
     }
 });
 
 
+function wait() {
+    $(document).ready(function() {
+        $(".loading-screen").removeClass("d-none").css("display", "flex");
+        $(".container").hide();
+        setTimeout(function() {
+            $(".loading-screen").fadeOut(300, function() {
+                $(".container").fadeIn(300);
+            });
+        }, 400);
+    });
 
-
+}
 
 async function getMealHome() {
+    wait()
     var result = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=`);
     var data = await result.json();
     console.log(data);
     displayMealsHome(data.meals);
+    wait()
 }
 getMealHome();
 
@@ -53,11 +69,13 @@ function displayMealsHome(arr) {
         `;
     }
     rowData.innerHTML = meals;
-    
+
 }
 
 function closeSideNav() {
-    $(".side-nav").animate({ left: "-243px" }, 1000);
+    $(".side-nav").animate({
+        left: "-243px"
+    }, 1000);
     $(".open-close-icon").toggleClass("fa-x fa-bars");
 }
 
@@ -74,57 +92,68 @@ function showSearchInputs() {
         </div>
     </div>`;
 
-    rowData.innerHTML = ""; 
-  
+    rowData.innerHTML = "";
+    wait()
+
 
     nameSearch = document.querySelector("#nameSearch");
     nameSearch.addEventListener("keyup", function() {
         let nameSearchMeal = nameSearch.value.toUpperCase();
         searchByName(nameSearchMeal);
     });
-    let searchInputByLetter = document.querySelector("#searchByLetter"); 
+    let searchInputByLetter = document.querySelector("#searchByLetter");
     searchInputByLetter.addEventListener("keyup", function() {
-        let letterSearchMeal = searchInputByLetter.value; 
-        searchByLetter(letterSearchMeal); 
+        let letterSearchMeal = searchInputByLetter.value;
+        searchByLetter(letterSearchMeal);
     });
+    wait()
 }
 
 async function searchByName(nameSearchMeal) {
+    wait()
     let result = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?s=${nameSearchMeal}`);
     let response = await result.json();
-    
-    console.log(response); 
+
+    console.log(response);
     if (response.meals) {
         displayMealsHome(response.meals);
     } else {
-        rowData.innerHTML = "<p>No meals found.</p>"; 
+        rowData.innerHTML = "<p>No meals found.</p>";
     }
+    wait()
 }
 
 async function searchByLetter(LetterSearchMeal) {
 
-
+    wait()
     let result = await fetch(`https://www.themealdb.com/api/json/v1/1/search.php?f=${LetterSearchMeal}`);
     let response = await result.json();
-    
-    console.log(response); 
+
+    console.log(response);
     if (response.meals) {
         displayMealsHome(response.meals);
     } else {
-        rowData.innerHTML = "<p>No meals found.</p>"; 
+        rowData.innerHTML = "<p>No meals found.</p>";
     }
+    wait()
 }
 
 // categories
 
 async function getCategories() {
+    rowData.innerHTML = "";
+    search.innerHTML = "";
+    wait()
+
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/categories.php`);
     response = await response.json();
-    displayMealCategories(response.categories);   
+    displayMealCategories(response.categories);
+    wait()
 }
 
 function displayMealCategories(arr) {
     let categories = "";
+
     for (let i = 0; i < arr.length; i++) {
         categories += `
         <div class="col-md-3">
@@ -139,21 +168,25 @@ function displayMealCategories(arr) {
         `;
     }
     rowData.innerHTML = categories;
-   
+
 }
 
 
 async function getCategoryMeals(category) {
     rowData.innerHTML = "";
-
+    search.innerHTML = "";
+    wait()
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`);
     response = await response.json();
 
     displayMeals(response.meals.slice(0, 20));
+    wait()
 }
 
 function displayMeals(meals) {
+
     let mealData = "";
+    wait()
     for (let i = 0; i < meals.length; i++) {
         mealData += `
         <div class="col-md-3">
@@ -167,16 +200,19 @@ function displayMeals(meals) {
         `;
     }
     rowData.innerHTML = mealData;
-   
+    wait()
+
 }
 
 // area
 async function getArea() {
     search.innerHTML = "";
+    wait()
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?a=list`);
     response = await response.json();
     console.log(response.meals);
     displayArea(response.meals);
+    wait()
 }
 
 function displayArea(arr) {
@@ -194,46 +230,52 @@ function displayArea(arr) {
     }
 
     rowData.innerHTML = area;
-    
+
 }
 
 async function getAreaMeals(area) {
     rowData.innerHTML = ""
+    wait()
 
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?a=${area}`)
     response = await response.json()
 
 
     displayMealsHome(response.meals.slice(0, 20))
+    wait()
 }
 async function getCategoryMeals(category) {
     rowData.innerHTML = ""
-
+    wait()
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${category}`)
     response = await response.json()
 
 
     displayMeals(response.meals.slice(0, 20))
+    wait()
 
 }
 
 async function getIngredientsMeals(ingredients) {
     rowData.innerHTML = ""
-
+    wait()
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?i=${ingredients}`)
     response = await response.json()
 
 
     displayMeals(response.meals.slice(0, 20))
+    wait()
 
 }
 
 async function getIngredients() {
     search.innerHTML = "";
+    wait()
     let response = await fetch(`https://www.themealdb.com/api/json/v1/1/list.php?i=list`);
     response = await response.json();
     console.log(response.meals);
     displayIngredients(response.meals.slice(0, 20));
+    wait()
 }
 
 function displayIngredients(arr) {
@@ -252,12 +294,13 @@ function displayIngredients(arr) {
     }
 
     rowData.innerHTML = ingredients;
-   
+
 }
 
 
 // show contacts
 function showContacts() {
+    wait()
     rowData.innerHTML = `
         <div class="col-md-6">
             <input id="nameInput" type="text" class="form-control" placeholder="Enter Your Name">
@@ -299,157 +342,174 @@ function showContacts() {
     
 `;
 
-let nameTouched = false,
-    emailTouched = false,
-    phoneTouched = false,
-    ageTouched = false,
-    passwordTouched = false,
-    repasswordTouched = false;
+    let nameTouched = false,
+        emailTouched = false,
+        phoneTouched = false,
+        ageTouched = false,
+        passwordTouched = false,
+        repasswordTouched = false;
 
-document.getElementById("nameInput").addEventListener("focus", () => { nameTouched = true; });
-document.getElementById("emailInput").addEventListener("focus", () => { emailTouched = true; });
-document.getElementById("phoneInput").addEventListener("focus", () => { phoneTouched = true; });
-document.getElementById("ageInput").addEventListener("focus", () => { ageTouched = true; });
-document.getElementById("passInput").addEventListener("focus", () => { passwordTouched = true; });
-document.getElementById("repassInput").addEventListener("focus", () => { repasswordTouched = true; });
+    document.getElementById("nameInput").addEventListener("focus", () => {
+        nameTouched = true;
+    });
+    document.getElementById("emailInput").addEventListener("focus", () => {
+        emailTouched = true;
+    });
+    document.getElementById("phoneInput").addEventListener("focus", () => {
+        phoneTouched = true;
+    });
+    document.getElementById("ageInput").addEventListener("focus", () => {
+        ageTouched = true;
+    });
+    document.getElementById("passInput").addEventListener("focus", () => {
+        passwordTouched = true;
+    });
+    document.getElementById("repassInput").addEventListener("focus", () => {
+        repasswordTouched = true;
+    });
 
 
-const inputs = document.querySelectorAll('input');
-inputs.forEach(input => {
-    input.addEventListener("keyup", validation);
-});
+    const inputs = document.querySelectorAll('input');
+    inputs.forEach(input => {
+        input.addEventListener("keyup", validation);
+        wait()
+    });
 
-function validation() {
-    const userName = document.getElementById("nameInput");
-    const userEmail = document.getElementById("emailInput");
-    const userPhone = document.getElementById("phoneInput");
-    const userAge = document.getElementById("ageInput");
-    const userPassword = document.getElementById("passInput");
-    const userRePassword = document.getElementById("repassInput");
+    function validation() {
+        const userName = document.getElementById("nameInput");
+        const userEmail = document.getElementById("emailInput");
+        const userPhone = document.getElementById("phoneInput");
+        const userAge = document.getElementById("ageInput");
+        const userPassword = document.getElementById("passInput");
+        const userRePassword = document.getElementById("repassInput");
 
-    if (nameTouched) {
-        if (userNameValid()) {
-            userName.classList.remove("is-invalid");
-            userName.classList.add("is-valid");
-            document.getElementById("alertName").classList.replace("d-block", "d-none");
+        if (nameTouched) {
+            if (userNameValid()) {
+                userName.classList.remove("is-invalid");
+                userName.classList.add("is-valid");
+                document.getElementById("alertName").classList.replace("d-block", "d-none");
+            } else {
+                userName.classList.add("is-invalid");
+                document.getElementById("alertName").classList.replace("d-none", "d-block");
+            }
+        }
+
+        if (emailTouched) {
+            if (userEmailValid()) {
+                userEmail.classList.remove("is-invalid");
+                userEmail.classList.add("is-valid");
+                document.getElementById("alertEmail").classList.replace("d-block", "d-none");
+            } else {
+                userEmail.classList.add("is-invalid");
+                document.getElementById("alertEmail").classList.replace("d-none", "d-block");
+            }
+        }
+
+        if (phoneTouched) {
+            if (userPhoneValid()) {
+                userPhone.classList.remove("is-invalid");
+                userPhone.classList.add("is-valid");
+                document.getElementById("alertPhone").classList.replace("d-block", "d-none");
+            } else {
+                userPhone.classList.add("is-invalid");
+                document.getElementById("alertPhone").classList.replace("d-none", "d-block");
+            }
+        }
+
+        if (ageTouched) {
+            if (userAgeValid()) {
+                userAge.classList.remove("is-invalid");
+                userAge.classList.add("is-valid");
+                document.getElementById("alertAge").classList.replace("d-block", "d-none");
+            } else {
+                userAge.classList.add("is-invalid");
+                document.getElementById("alertAge").classList.replace("d-none", "d-block");
+            }
+        }
+
+        if (passwordTouched) {
+            if (userPasswordValid()) {
+                userPassword.classList.remove("is-invalid");
+                userPassword.classList.add("is-valid");
+                document.getElementById("alertPass").classList.replace("d-block", "d-none");
+            } else {
+                userPassword.classList.add("is-invalid");
+                document.getElementById("alertPass").classList.replace("d-none", "d-block");
+            }
+        }
+
+        if (repasswordTouched) {
+            if (userRePasswordValid()) {
+                userRePassword.classList.remove("is-invalid");
+                userRePassword.classList.add("is-valid");
+                document.getElementById("alertRePass").classList.replace("d-block", "d-none");
+            } else {
+                userRePassword.classList.add("is-invalid");
+                document.getElementById("alertRePass").classList.replace("d-none", "d-block");
+            }
+        }
+
+        const submitBtn = document.getElementById("submitBtn");
+        if (userNameValid() && userEmailValid() && userPhoneValid() && userAgeValid() && userPasswordValid() && userRePasswordValid()) {
+            submitBtn.removeAttribute("disabled");
         } else {
-            userName.classList.add("is-invalid");
-            document.getElementById("alertName").classList.replace("d-none", "d-block");
+            submitBtn.setAttribute("disabled", true);
         }
     }
 
-    if (emailTouched) {
-        if (userEmailValid()) {
-            userEmail.classList.remove("is-invalid");
-            userEmail.classList.add("is-valid");
-            document.getElementById("alertEmail").classList.replace("d-block", "d-none");
-        } else {
-            userEmail.classList.add("is-invalid");
-            document.getElementById("alertEmail").classList.replace("d-none", "d-block");
-        }
+    function userNameValid() {
+        const userName = document.getElementById("nameInput").value;
+        return /^[A-Z][a-zA-Z ]*$/.test(userName) && userName.trim() !== "";
     }
 
-    if (phoneTouched) {
-        if (userPhoneValid()) {
-            userPhone.classList.remove("is-invalid");
-            userPhone.classList.add("is-valid");
-            document.getElementById("alertPhone").classList.replace("d-block", "d-none");
-        } else {
-            userPhone.classList.add("is-invalid");
-            document.getElementById("alertPhone").classList.replace("d-none", "d-block");
-        }
+    function userEmailValid() {
+        const userEmail = document.getElementById("emailInput").value;
+        return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(userEmail);
     }
 
-    if (ageTouched) {
-        if (userAgeValid()) {
-            userAge.classList.remove("is-invalid");
-            userAge.classList.add("is-valid");
-            document.getElementById("alertAge").classList.replace("d-block", "d-none");
-        } else {
-            userAge.classList.add("is-invalid");
-            document.getElementById("alertAge").classList.replace("d-none", "d-block");
-        }
+    function userPhoneValid() {
+        const userPhone = document.getElementById("phoneInput").value;
+        return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(userPhone);
     }
 
-    if (passwordTouched) {
-        if (userPasswordValid()) {
-            userPassword.classList.remove("is-invalid");
-            userPassword.classList.add("is-valid");
-            document.getElementById("alertPass").classList.replace("d-block", "d-none");
-        } else {
-            userPassword.classList.add("is-invalid");
-            document.getElementById("alertPass").classList.replace("d-none", "d-block");
-        }
+    function userAgeValid() {
+        const userAge = document.getElementById("ageInput").value;
+        return /^(0?[1-9]|[1-9][0-9]|1[0-9][0-9]|200)$/.test(userAge);
     }
 
-    if (repasswordTouched) {
-        if (userRePasswordValid()) {
-            userRePassword.classList.remove("is-invalid");
-            userRePassword.classList.add("is-valid");
-            document.getElementById("alertRePass").classList.replace("d-block", "d-none");
-        } else {
-            userRePassword.classList.add("is-invalid");
-            document.getElementById("alertRePass").classList.replace("d-none", "d-block");
-        }
+    function userPasswordValid() {
+        const userPassword = document.getElementById("passInput").value;
+        return /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/.test(userPassword);
     }
 
-    const submitBtn = document.getElementById("submitBtn");
-    if (userNameValid() && userEmailValid() && userPhoneValid() && userAgeValid() && userPasswordValid() && userRePasswordValid()) {
-        submitBtn.removeAttribute("disabled");
-    } else {
-        submitBtn.setAttribute("disabled", true);
+    function userRePasswordValid() {
+        const userPassword = document.getElementById("passInput").value;
+        const userRePassword = document.getElementById("repassInput").value;
+        return userPassword === userRePassword;
     }
-}
-
-function userNameValid() {
-    const userName = document.getElementById("nameInput").value;
-    return /^[A-Z][a-zA-Z ]*$/.test(userName) && userName.trim() !== "";
-}
-
-function userEmailValid() {
-    const userEmail = document.getElementById("emailInput").value;
-    return /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/.test(userEmail);
-}
-
-function userPhoneValid() {
-    const userPhone = document.getElementById("phoneInput").value;
-    return /^[\+]?[(]?[0-9]{3}[)]?[-\s\.]?[0-9]{3}[-\s\.]?[0-9]{4,6}$/.test(userPhone);
-}
-
-function userAgeValid() {
-    const userAge = document.getElementById("ageInput").value;
-    return /^(0?[1-9]|[1-9][0-9]|1[0-9][0-9]|200)$/.test(userAge);
-}
-
-function userPasswordValid() {
-    const userPassword = document.getElementById("passInput").value;
-    return /^(?=.*\d)(?=.*[a-z])[0-9a-zA-Z]{8,}$/.test(userPassword);
-}
-
-function userRePasswordValid() {
-    const userPassword = document.getElementById("passInput").value;
-    const userRePassword = document.getElementById("repassInput").value;
-    return userPassword === userRePassword;
-}
 }
 
 
 // display meals details by id
 async function getMealDetails(mealID) {
     rowData.innerHTML = ""
+    $(".loading-screen").fadeIn(300)
 
     searchContainer.innerHTML = "";
     let respone = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${mealID}`);
     respone = await respone.json();
 
     displayMealDetails(respone.meals[0])
+    $(".loading-screen").fadeOut(300)
+
 
 }
 
 
 function displayMealDetails(meal) {
-    
+
     searchContainer.innerHTML = "";
+    wait()
 
 
     let ingredients = ``
@@ -497,4 +557,5 @@ function displayMealDetails(meal) {
             </div>`
 
     rowData.innerHTML = content;
+    wait()
 }
