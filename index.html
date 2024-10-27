@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+   <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <link rel="shortcut icon" href="/assets/imgs/logo.png" type="image/x-icon">
+      <link rel="stylesheet" href="./assets/css/all.min.css">
+      <link rel="stylesheet" href="./assets/css/bootstrap.min.css">
+      <link rel="stylesheet" href="./assets/css/media.css">
+      <link rel="stylesheet" href="./assets/css/style.css">
+      <title>Yummy</title>
+   </head>
+   <body>
+      <div class="loading-screen text-white d-none position-fixed top-0 start-0 end-0 bottom-0 bg-black justify-content-center align-items-center ">
+         <i class="fa fa-spinner fa-spin fa-5x"></i>
+      </div>
+      <aside class="side-nav min-vh-100 position-fixed top-0 bg-grey d-flex">
+         <div class="nav-list d-flex flex-column justify-content-between min-vh-100 p-3">
+            <div class="nav-links">
+               <ul class="list-unstyled">
+                  <li class="position-relative py-3 cursor-pointer" id="search" onclick="closeSideNav()">Search</li>
+                  <li class="position-relative py-3 cursor-pointer" id="Categories" onclick="closeSideNav()">Categories</li>
+                  <li class="position-relative py-3 cursor-pointer" id="Area" onclick="closeSideNav()">Area</li>
+                  <li class="position-relative py-3 cursor-pointer" id="Ingredients" onclick="closeSideNav()">Ingredients</li>
+                  <li class="position-relative py-3 cursor-pointer" id="contact" onclick="closeSideNav()">Contact Us</li>
+               </ul>
+            </div>
+            <div class="nav-footer">
+               <div class="nav-icons">
+                  <i class="cursor-pointer fa-brands fa-facebook"></i>
+                  <i class="cursor-pointer fa-brands fa-twitter"></i>
+                  <i class="cursor-pointer fa-solid fa-globe"></i>
+               </div>
+               <div class="nav-footer">
+                  <p>Copyright Â© 2024 All Rights <br> Reserved.</p>
+               </div>
+            </div>
+         </div>
+         <nav class="d-flex py-3 px-2 bg-white flex-column justify-content-between text-black text-center">
+            <img class="logo" src="./assets/imgs/logo.png" alt="this is logo nav">
+            <i class="cursor-pointer fa-solid open-close-icon fa-2x fa-bars"></i> 
+            <div>
+               <i class="cursor-pointer fa-solid fa-globe d-block"></i>
+               <i class="cursor-pointer fa-solid fa-share-nodes"></i>
+            </div>
+         </nav>
+      </aside>
+      <div class="container w-75" id="searchContainer">
+         <!-- two inputs -->
+      </div>
+      <div class="min-vh-100 position-relative">
+         <!-- <div class="inner-loading-screen top-0 start-0 end-0 bottom-0 justify-content-center align-items-center d-none">
+            <i class="fa fa-spinner fa-spin fa-5x"></i>
+            </div> -->
+         <div class="container">
+            <div class="row py-5 g-4 " id="rowData">
+               <!-- meals data here -->
+            </div>
+         </div>
+      </div>
+      <script src="./assets/js/bootstrap.bundle.min.js"></script>
+      <script src="./assets/js/jquery-3.7.1.min.js"></script>
+      <script src="./assets/js/main.js"></script>
+   </body>
+</html>
